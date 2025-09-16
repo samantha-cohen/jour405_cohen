@@ -9,7 +9,7 @@ In this assignment, we will be working with a dataset reporting the number of cr
 You will need to load the tidyverse library
 
 ```{r}
-
+library(tidyverse)
 ```
 
 Then you'll load the data from the web. The URL for the data is: https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_crime_totals_2024.csv. You will create a dataframe called `pg_crime` that contains the data from this URL.
@@ -17,46 +17,61 @@ Then you'll load the data from the web. The URL for the data is: https://raw.git
 ### Task 2: Load the Data and Describe It
 
 ```{r}
+pg_crime <- read_csv(url("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_crime_totals_2024.csv"))
+
+# This PG county crime data categorizes and alphabetizes each type of crime committed between January and December. Accidents, auto stolen and theft from auto consistently have the highest numbers throughout the year. The lowest stats of crime include B & E other, homicide, robbery residential and sex offenses.
 ```
 ### Task 3: Describe the Data
 
 You should examine that dataframe carefully by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the categories of incidents. From a reporting standpoint, are any of the categories more important than others? Why or why not? Do any of them make the job of summarizing the data more difficult? Why or why not?
 
-ANSWER HERE
+As I mentioned above, the data is organized alphabetically by types of crimes from January to December including different types of accidents, assaults, auto stolen, B & E, homicide, robbery, sex offenses and theft. We can see that the highest crime statistics throughout the year comes from accidents, with auto thefts also having high statistics. Categories like accidents and theft would be the most important to report on since they happen more consistently than categories like residential robberies or homicides. If there's such a high rate of accidents or thefts, there must be a pattern or reason to dive deeper into that causing this high crime rate. Some categories are consistently increasing or decreasing throughout the year in numbers, while others are more randomized, so this could make it hard to summarize a trend or pattern.
 
 ### Task 4: Calculating Averages
 
 Calculate the total number of incidents per month for each category using `mutate()`, calling the new column `total_incidents`. Then calculate the average number of incidents per month for each category of crime, calling the new column `average_incidents`. Assign the result to a new dataframe called `pg_crime_averages`.
 
 ```{r}
-
+pg_crime_averages <- pg_crime |> 
+  mutate (total_incidents = `Jan`+`Feb`+ `Mar`+`Apr`+`May`+`Jun`+`Jul`+`Aug` +`Sep`+`Oct`+`Nov`+`Dec`) |>
+  mutate (average_incidents = total_incidents/12)
 ```
 
 ### Task 5: Describe the Averages
 
 Examine the new dataframe, `pg_crime_averages`, by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the average number of incidents per month for each category. Which categories have the highest average number of incidents per month? Which have the lowest? What does this tell you about the pattern of crime in Prince George's County? Are there categories that you have questions about? Why or why not?
 
-ANSWER HERE
-
+The average number of incidents per month for accidents is 481.333333, which is consistent with the rest of my observations of it having the highest rates. The next highest average is 399.166667 for auto stolen per month, which is also consistent with my other findings. Auto theft follows, then accident with impound, etc. The lowest average number of incidents per month are robbery residential, which is N/A because there isn't enough data, homicide, B & E other, assault weapon and assault shooting. I think it would be worth looking into their accident rate and why that's the highest category. I find that to be interesting. Also, theft seems to be a common type of crime, which would be another interesting angle. I'm curious as to why residential robbery is so low. 
 
 ### Task 6: Testing a Theory
 
 One theory about crime is that it is more likely to occur in the summer months. Test this theory by creating three new columns using `mutate()` that calculate the percentage change compared to the average for each category of crime for the months of June, July, and August. Call the new columns `june_change`, `july_change`, and `august_change`. Assign the result to a new dataframe called `summer_crime_averages`.
 
 ```{r}
+summer_crime_averages <- pg_crime_averages |>
+  mutate(
+    june_change = ((Jun - average_incidents) / average_incidents) * 100, 
+    july_change = ((Jul - average_incidents) / average_incidents) * 100, 
+    august_change = ((Aug - average_incidents) / average_incidents) * 100, 
+  )
 ```
 
 ### Task 7: Describe the Summer Crime Averages
 
 Look at the `summer_crime_averages` dataframe by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the percentage change in the average number of incidents per month for each category of crime for the months of June, July, and August. Do you see any patterns? What does this tell you about the theory that crime is more likely to occur in the summer months?
 
-ANSWER HERE
+
+It appears that in June and July, accidents, which is the highest average crime category in PG County decreased by 3 and 4% on June and July, but then increased by 3% in August. Assault shootings which decreased in June by about 4% then increased by 34% in July and August. In July there was a 42% increase in auto stolen and recovered. Homicide, which was one of the lowest average categories increased by 37% in June, 20% in July and August. 
+
+I definitely can see where the theory about crime being higher in the summer months comes into play, especially with these statistics. Homicides, which were consistenty low throughout the year, had a major jump in the summer by as much as 37% in June and then stayed steady at 20% in July and August. This statistic stood out to me particularly since throughout the year this category was the lowest among all averages. 
 
 ### Task 8: What's the Story?
 
 Write up a lede and nutgraf of a story focused on the crime data in Prince George's County. It could be from any of the dataframes you've created in this assignment. The lede should be a single sentence that summarizes the most important information in the data. The nutgraf should be a paragraph that provides more context and explains why the data is important.
 
-ANSWER HERE
+Prince George’s County saw low numbers of homicides throughout the year overall, but hit a large spike in the homicide rate in the summer months. 
+
+When looking at Prince George’s County overall, the homicide rate doesn’t raise any red flags in comparison to other categories of crime like accidents or auto theft. But something stands out in the summer months. In June alone, the county saw a 37% increase in crime, decreasing slightly to 20% in July and August, but still a major increase overall. 
 
 ### Task 9: Save Your Work and Put it on GitHub
 
