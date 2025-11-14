@@ -1,0 +1,18 @@
+---
+title: "Final Project: Billboard"
+date: "2025-11-14"
+author: "Samantha Cohen"
+---
+
+```{r}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+```
+
+##Load the data
+
+```{r}
+billboard_data <- read_csv("data/billboard.csv")
+```
+
