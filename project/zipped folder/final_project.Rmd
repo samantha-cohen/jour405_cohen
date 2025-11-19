@@ -1,0 +1,64 @@
+---
+title: "final_project"
+author: "Samantha Cohen"
+date: "2025-11-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+## Load data
+```{r}
+Billboard_Hot_100_Number_Ones_Database_Data <- read_csv("Downloads/Billboard Hot 100 Number Ones Database - Data.csv")
+```
+
+## Questions 1-3
+
+What does the data contain and what time period does it cover?
+
+**This data contains every song to ever top the Billboard Top 100 between August 4, 1958 and January 11, 2025. The data was compiled by author Chris Dalla Riva who wrote a book titled "Uncharted Territory: What Numbers Tell Us about the Biggest Hit Songs and Ourselves" https://bio.site/uncharted_territory. The data is organized into several categories from the basics (song title, artist, week to hit number one, how many weeks it was at number one, etc), the rating, record label, genre and style of the song assigned by Chris Dalla Riva and Vinnie Christopher, artist info (how they became famous, demographics of the artist, etc), songwriter and producer info, musical info (energy, BPM, danceability, happiness, etc) which I think will be worth looking deeper into, instrument info, structural and lyrical info, and more.**
+
+Which columns will be most important for your analysis?
+
+**The columns which will be most important for my analysis, at first glance, will be "Weeks at Number One," "Overall Rating," all the genre columns, "Producers" and all of the categories regarding danceability, BPM, happiness, energy. While "Weeks at Number One" and "Overall Rating" will give me a place to start looking and organizing my data, it's the other columns which cause the song's success to top the charts. Categories regarding danceability, BPM, happiness, energy and the genre and producers can be considered the "cause" columns while the "Weeks at Number One" and "Overall Rating" can be the "effect" columns. We will use them as a guide to decide what factors into making a top song.**
+
+What's missing that you might need or want?
+
+**Something that's missing that I might need or want for my analysis is maybe number of streams or an estimate to the number of listeners during the weeks the songs were on the top of the charts. This may be helpful to see truly how popular the songs were and which songs were fan favorites because sometimes a song will be at the top of the charts, but it won't necessarily be a fan favorite to a certain demographic. Also, demographics of the average listener per song could be helpful. Is a song more popular for the younger population? Middle-aged or older population? While the data includes a ton of different categories that I wouldn't even think of off the top of my head, there are still some that could be useful.**
+
+## Question 4
+
+Select a relevant column and produce basic descriptive statistics on the mean, median, lowest and highest values.
+
+```{r}
+summary_stats <- Billboard_Hot_100_Number_Ones_Database_Data |>
+  summarise(
+    mean_weeks = mean(`Weeks at Number One`),
+    median_weeks = median(`Weeks at Number One`),
+    min_weeks = min(`Weeks at Number One`), 
+    max_weeks = max(`Weeks at Number One`)
+  )
+
+summary_stats
+```
+
+##Newsworthy hypothesis 
+
+Next, propose a newsworthy hypothesis (or several of them) for your dataset. You'll be looking to find (or eliminate possible story ideas) using the techniques you've learned in this class. You'll start that effort this week by coming up with some theories or questions that you're interested in exploring that can be answered with the dataset you selected.
+
+Danceability score impacts how long a song is number one on the charts. 
+
+Genre of song impacts how long a song is number one on the charts.
+
+I'm interested in exploring whether or not high danceability scores correlate to how many weeks a song is at the top of the charts or if the genre plays a big role too.
+
+##Questions I have 
+
+How will I know which is the best category to choose when investigating the dataset since there are so many categories? 
+
